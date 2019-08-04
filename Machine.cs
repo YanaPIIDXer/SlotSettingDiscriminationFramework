@@ -6,7 +6,7 @@ namespace SlotSettingDiscriminationFramework
 	/// <summary>
 	/// 台のデータを扱うクラス
 	/// </summary>
-	public class Machine
+	public abstract class Machine
 	{
 		/// <summary>
 		/// 開始ゲーム数
