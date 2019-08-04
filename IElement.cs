@@ -17,6 +17,6 @@ namespace SlotSettingDiscriminationFramework
 		/// <summary>
 		/// 判別要素の強さ
 		/// </summary>
-		int Weight { get; }
+		float Weight { get; }
 	}
 }
