@@ -1,0 +1,2 @@
+# SlotSettingDiscriminationFramework
+スロット設定判別フレームワーク
