@@ -160,6 +160,7 @@ namespace SlotSettingDiscriminationFramework
 
 			for (int i = 0; i < 6; i++)
 			{
+				if(SettingExpection[i] == 0.0f) { continue; }
 				SettingExpection[i] /= (ElementDic.Count - DenyCount);
 			}
 
