@@ -7,7 +7,7 @@ namespace SlotSettingDiscriminationFramework
 	/// <summary>
 	/// ユーティリティメソッド
 	/// </summary>
-	static class Util
+	public static class Util
 	{
 		/// <summary>
 		/// 試行回数Ｘに対する二項分布の確率を計算。
