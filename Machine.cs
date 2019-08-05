@@ -104,24 +104,55 @@ namespace SlotSettingDiscriminationFramework
 		/// </summary>
 		protected void UpdateExpection()
 		{
-			// 一旦初期化
+			bool[] IsDenied = new bool[6];
+			int DenyCount = 0;
+
+			// 初期化
 			for(int i = 0; i < 6; i++)
 			{
 				SettingExpection[i] = 0.0f;
+				IsDenied[i] = false;
 			}
 
-			// 確率を合成していく。
+			// 期待値を合成していく。
 			foreach(var KeyValue in ElementDic)
 			{
 				var Expections = KeyValue.Value.GetSettingExpection(CurrentGameCount);
 				for(int i = 0; i < 6; i++)
 				{
 					SettingExpection[i] += Expections[i];
+					if(Expections[i] == 0.0f && !IsDenied[i])
+					{
+						// 設定を否定。（４５６確等）
+						IsDenied[i] = true;
+						DenyCount++;
+					}
 				}
 			}
-			for(int i = 0; i < 6; i++)
+
+			// 設定が否定された期待値は他の設定に分配される。
+			if(DenyCount > 0)
 			{
-				SettingExpection[i] /= ElementDic.Count;
+				float DenyValue = 0.0f;
+				for (int i = 0; i < 6; i++)
+				{
+					if (IsDenied[i])
+					{
+						DenyValue += SettingExpection[i];
+					}
+				}
+				for (int i = 0; i < 6; i++)
+				{
+					if (!IsDenied[i])
+					{
+						SettingExpection[i] += DenyValue / (ElementDic.Count - DenyCount);
+					}
+				}
+			}
+
+			for (int i = 0; i < 6; i++)
+			{
+				SettingExpection[i] /= (ElementDic.Count - DenyCount);
 			}
 		}
 	}
