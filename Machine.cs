@@ -113,7 +113,7 @@ namespace SlotSettingDiscriminationFramework
 			// 確率を合成していく。
 			foreach(var KeyValue in ElementDic)
 			{
-				var Expections = KeyValue.Value.GetSettingExpection();
+				var Expections = KeyValue.Value.GetSettingExpection(CurrentGameCount);
 				for(int i = 0; i < 6; i++)
 				{
 					SettingExpection[i] += Expections[i];

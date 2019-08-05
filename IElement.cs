@@ -18,7 +18,8 @@ namespace SlotSettingDiscriminationFramework
 		/// 設定毎の期待値を取得。
 		/// ※必ず要素数が６の配列を返す事。
 		/// </summary>
+		/// <param name="GameCount">ゲーム数</param>
 		/// <returns>設定毎の期待値</returns>
-		float[] GetSettingExpection();
+		float[] GetSettingExpection(int GameCount);
 	}
 }
