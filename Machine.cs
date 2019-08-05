@@ -19,6 +19,11 @@ namespace SlotSettingDiscriminationFramework
 		public int CurrentGameCount { get; set; }
 
 		/// <summary>
+		/// 期待値が変動した時のイベント
+		/// </summary>
+		public Action OnExpectionChanged { set; private get; }
+
+		/// <summary>
 		/// 設定期待値
 		/// </summary>
 		private float[] SettingExpection;
@@ -156,6 +161,11 @@ namespace SlotSettingDiscriminationFramework
 			for (int i = 0; i < 6; i++)
 			{
 				SettingExpection[i] /= (ElementDic.Count - DenyCount);
+			}
+
+			if(OnExpectionChanged != null)
+			{
+				OnExpectionChanged();
 			}
 		}
 	}
