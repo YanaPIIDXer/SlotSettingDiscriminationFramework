@@ -11,12 +11,35 @@ namespace SlotSettingDiscriminationFramework
 		/// <summary>
 		/// 開始ゲーム数
 		/// </summary>
-		public int StartGameCount { get; set; }
+		public int StartGameCount
+		{
+			get { return _StartGameCount; }
+			set
+			{
+				_StartGameCount = value;
+				UpdateExpection();
+			}
+		}
+		private int _StartGameCount;
 
 		/// <summary>
 		/// 現在ゲーム数
 		/// </summary>
-		public int CurrentGameCount { get; set; }
+		public int CurrentGameCount
+		{
+			get { return _CurrentGameCount; }
+			set
+			{
+				_CurrentGameCount = value;
+				UpdateExpection();
+			}
+		}
+		private int _CurrentGameCount;
+
+		/// <summary>
+		/// 期待値が変動した時のイベント
+		/// </summary>
+		public Action OnExpectionChanged { set; private get; }
 
 		/// <summary>
 		/// 設定期待値
@@ -44,8 +67,8 @@ namespace SlotSettingDiscriminationFramework
 		/// </summary>
 		public Machine()
 		{
-			StartGameCount = 0;
-			CurrentGameCount = 0;
+			_StartGameCount = 0;
+			_CurrentGameCount = 0;
 			ElementDic = new Dictionary<string, IElement>();
 			SettingExpection = new float[6];
 			for(int i = 0; i < 6; i++)
@@ -66,11 +89,11 @@ namespace SlotSettingDiscriminationFramework
 		}
 
 		/// <summary>
-		/// 設定のパーセンテージを取得。
+		/// 設定の期待値を取得。
 		/// </summary>
 		/// <param name="Setting">設定。１～６</param>
-		/// <returns>パーセンテージ</returns>
-		public float GetPercentage(int Setting)
+		/// <returns>期待値</returns>
+		public float GetExpection(int Setting)
 		{
 			int Index = Setting - 1;
 			return SettingExpection[Index];
@@ -141,18 +164,27 @@ namespace SlotSettingDiscriminationFramework
 						DenyValue += SettingExpection[i];
 					}
 				}
-				for (int i = 0; i < 6; i++)
+				if(DenyValue > 0.0f)
 				{
-					if (!IsDenied[i])
+					for (int i = 0; i < 6; i++)
 					{
-						SettingExpection[i] += DenyValue / (ElementDic.Count - DenyCount);
+						if (!IsDenied[i])
+						{
+							SettingExpection[i] += DenyValue / (ElementDic.Count - DenyCount);
+						}
 					}
 				}
 			}
 
 			for (int i = 0; i < 6; i++)
 			{
+				if(SettingExpection[i] == 0.0f) { continue; }
 				SettingExpection[i] /= (ElementDic.Count - DenyCount);
+			}
+
+			if(OnExpectionChanged != null)
+			{
+				OnExpectionChanged();
 			}
 		}
 	}
