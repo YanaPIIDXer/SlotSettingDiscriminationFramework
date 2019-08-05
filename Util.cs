@@ -18,7 +18,6 @@ namespace SlotSettingDiscriminationFramework
 		/// <returns>二項分布の確率</returns>
 		public static float CalcBinomDist(ulong X, ulong Success, float Prob)
 		{
-			Prob = 1.0f / Prob;
 			ulong Comb = CalcComb(X, Success);
 			return (float)(Comb * Math.Pow(Prob, Success) * Math.Pow((1.0f - Prob), (X - Success)));
 		}
