@@ -24,6 +24,29 @@ namespace SlotSettingDiscriminationFramework
 		}
 
 		/// <summary>
+		/// 二項分布の確率から期待値に変換
+		/// </summary>
+		/// <param name="BinomDists">二項分布の確率</param>
+		/// <returns>期待値</returns>
+		public static float[] BinomDistToExpection(float[] BinomDists)
+		{
+			float[] Expections = new float[6];
+
+			float Total = 0;
+			for(int i = 0; i < 6; i++)
+			{
+				Total += BinomDists[i];
+			}
+
+			for(int i = 0; i < 6; i++)
+			{
+				Expections[i] = BinomDists[i] / Total * 100;
+			}
+
+			return Expections;
+		}
+
+		/// <summary>
 		/// 異なるn個のものからm個を選ぶ組み合わせの総和（nCm）を計算。
 		/// </summary>
 		/// <param name="n">n</param>
