@@ -141,11 +141,14 @@ namespace SlotSettingDiscriminationFramework
 						DenyValue += SettingExpection[i];
 					}
 				}
-				for (int i = 0; i < 6; i++)
+				if(DenyValue > 0.0f)
 				{
-					if (!IsDenied[i])
+					for (int i = 0; i < 6; i++)
 					{
-						SettingExpection[i] += DenyValue / (ElementDic.Count - DenyCount);
+						if (!IsDenied[i])
+						{
+							SettingExpection[i] += DenyValue / (ElementDic.Count - DenyCount);
+						}
 					}
 				}
 			}
