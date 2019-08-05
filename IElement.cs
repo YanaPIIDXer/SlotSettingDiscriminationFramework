@@ -15,11 +15,6 @@ namespace SlotSettingDiscriminationFramework
 		string Name { get; }
 
 		/// <summary>
-		/// 判別要素の強さ
-		/// </summary>
-		float Weight { get; }
-
-		/// <summary>
 		/// 設定毎の期待値を取得。
 		/// ※必ず要素数が６の配列を返す事。
 		/// </summary>
