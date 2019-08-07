@@ -162,6 +162,7 @@ namespace SlotSettingDiscriminationFramework
 					if (IsDenied[i])
 					{
 						DenyValue += SettingExpection[i];
+						SettingExpection[i] = 0.0f;
 					}
 				}
 				if(DenyValue > 0.0f)
@@ -170,7 +171,7 @@ namespace SlotSettingDiscriminationFramework
 					{
 						if (!IsDenied[i])
 						{
-							SettingExpection[i] += DenyValue / (ElementDic.Count - DenyCount);
+							SettingExpection[i] += DenyValue / (6 - DenyCount);
 						}
 					}
 				}
@@ -179,7 +180,7 @@ namespace SlotSettingDiscriminationFramework
 			for (int i = 0; i < 6; i++)
 			{
 				if(SettingExpection[i] == 0.0f) { continue; }
-				SettingExpection[i] /= (ElementDic.Count - DenyCount);
+				SettingExpection[i] /= ElementDic.Count;
 			}
 
 			if(OnExpectionChanged != null)
