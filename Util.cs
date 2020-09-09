@@ -30,15 +30,14 @@ namespace SlotSettingDiscriminationFramework
 		/// <returns>期待値</returns>
 		public static float[] BinomDistToExpection(float[] BinomDists, int SettingLevel = 6)
 		{
-			float[] Expections = new float[SettingLevel];
-
 			float Total = 0.0f;
 			for(int i = 0; i < SettingLevel; i++)
 			{
 				Total += BinomDists[i];
 			}
 
-			for(int i = 0; i < SettingLevel; i++)
+			float[] Expections = new float[SettingLevel];
+			for (int i = 0; i < SettingLevel; i++)
 			{
 				Expections[i] = BinomDists[i] / Total * 100;
 			}
