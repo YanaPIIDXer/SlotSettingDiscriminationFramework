@@ -28,7 +28,7 @@ namespace SlotSettingDiscriminationFramework
 		/// <param name="BinomDists">二項分布の確率</param>
 		/// <param name="SettingLevel">設定段階</param>
 		/// <returns>期待値</returns>
-		public static float[] BinomDistToExpection(float[] BinomDists, int SettingLevel)
+		public static float[] BinomDistToExpection(float[] BinomDists, int SettingLevel = 6)
 		{
 			float[] Expections = new float[SettingLevel];
 
