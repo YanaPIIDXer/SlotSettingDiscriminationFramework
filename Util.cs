@@ -32,7 +32,7 @@ namespace SlotSettingDiscriminationFramework
 		{
 			float[] Expections = new float[SettingLevel];
 
-			float Total = 0;
+			float Total = 0.0f;
 			for(int i = 0; i < SettingLevel; i++)
 			{
 				Total += BinomDists[i];
