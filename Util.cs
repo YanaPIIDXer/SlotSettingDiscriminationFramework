@@ -35,8 +35,21 @@ namespace SlotSettingDiscriminationFramework
 			{
 				Total += BinomDists[i];
 			}
-
 			float[] Expections = new float[SettingLevel];
+			if (Total == 0.0f)
+			{
+				// あまりにも極端な数値が入った場合はBinomDistが全て0になっている可能性がある。
+				// その場合は実質最高設定確定として扱う。
+				// （だからと言って他の設定に0.0fを突っ込むと確定演出が出た扱いとなってしまうので小さな値は放り込んでおく。）
+				float MinimumValue = 0.00001f * SettingLevel;
+				for (int i = 0; i < SettingLevel - 1; i++)
+				{
+					Expections[i] = MinimumValue;
+				}
+				Expections[SettingLevel - 1] = 100.0f - MinimumValue;
+				return Expections;
+			}
+
 			for (int i = 0; i < SettingLevel; i++)
 			{
 				Expections[i] = BinomDists[i] / Total * 100;
