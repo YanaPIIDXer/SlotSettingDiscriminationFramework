@@ -26,18 +26,19 @@ namespace SlotSettingDiscriminationFramework
 		/// 二項分布の確率から期待値に変換
 		/// </summary>
 		/// <param name="BinomDists">二項分布の確率</param>
+		/// <param name="SettingLevel">設定段階</param>
 		/// <returns>期待値</returns>
-		public static float[] BinomDistToExpection(float[] BinomDists)
+		public static float[] BinomDistToExpection(float[] BinomDists, int SettingLevel)
 		{
-			float[] Expections = new float[6];
+			float[] Expections = new float[SettingLevel];
 
 			float Total = 0;
-			for(int i = 0; i < 6; i++)
+			for(int i = 0; i < SettingLevel; i++)
 			{
 				Total += BinomDists[i];
 			}
 
-			for(int i = 0; i < 6; i++)
+			for(int i = 0; i < SettingLevel; i++)
 			{
 				Expections[i] = BinomDists[i] / Total * 100;
 			}

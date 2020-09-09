@@ -47,6 +47,11 @@ namespace SlotSettingDiscriminationFramework
 		private float[] SettingExpection;
 
 		/// <summary>
+		/// 設定段階
+		/// </summary>
+		public readonly int SettingLevel = 6;
+
+		/// <summary>
 		/// 自分が回したゲーム数
 		/// </summary>
 		public int GameCount
@@ -65,15 +70,17 @@ namespace SlotSettingDiscriminationFramework
 		/// <summary>
 		/// コンストラクタ
 		/// </summary>
-		public Machine()
+		/// <param name="SettingLevel">設定段階（デフォルトで６）</param>
+		public Machine(int SettingLevel = 6)
 		{
+			this.SettingLevel = SettingLevel;
 			_StartGameCount = 0;
 			_CurrentGameCount = 0;
 			ElementDic = new Dictionary<string, IElement>();
-			SettingExpection = new float[6];
-			for(int i = 0; i < 6; i++)
+			SettingExpection = new float[SettingLevel];
+			for(int i = 0; i < SettingLevel; i++)
 			{
-				SettingExpection[i] = 100.0f / 6;
+				SettingExpection[i] = 100.0f / SettingLevel;
 			}
 		}
 		
@@ -90,8 +97,9 @@ namespace SlotSettingDiscriminationFramework
 
 		/// <summary>
 		/// 設定の期待値を取得。
+		/// ※アクロスの設定段階「１，２，５，６」のようなものでも連番の「１，２，３，４」でアクセスする事。
 		/// </summary>
-		/// <param name="Setting">設定。１～６</param>
+		/// <param name="Setting">設定値</param>
 		/// <returns>期待値</returns>
 		public float GetExpection(int Setting)
 		{
@@ -127,11 +135,11 @@ namespace SlotSettingDiscriminationFramework
 		/// </summary>
 		protected void UpdateExpection()
 		{
-			bool[] IsDenied = new bool[6];
+			bool[] IsDenied = new bool[SettingLevel];
 			int DenyCount = 0;
 
 			// 初期化
-			for(int i = 0; i < 6; i++)
+			for(int i = 0; i < SettingLevel; i++)
 			{
 				SettingExpection[i] = 0.0f;
 				IsDenied[i] = false;
@@ -141,7 +149,7 @@ namespace SlotSettingDiscriminationFramework
 			foreach(var KeyValue in ElementDic)
 			{
 				var Expections = KeyValue.Value.GetSettingExpection(CurrentGameCount);
-				for(int i = 0; i < 6; i++)
+				for(int i = 0; i < SettingLevel; i++)
 				{
 					SettingExpection[i] += Expections[i];
 					if(Expections[i] == 0.0f && !IsDenied[i])
@@ -157,7 +165,7 @@ namespace SlotSettingDiscriminationFramework
 			if(DenyCount > 0)
 			{
 				float DenyValue = 0.0f;
-				for (int i = 0; i < 6; i++)
+				for (int i = 0; i < SettingLevel; i++)
 				{
 					if (IsDenied[i])
 					{
@@ -167,17 +175,17 @@ namespace SlotSettingDiscriminationFramework
 				}
 				if(DenyValue > 0.0f)
 				{
-					for (int i = 0; i < 6; i++)
+					for (int i = 0; i < SettingLevel; i++)
 					{
 						if (!IsDenied[i])
 						{
-							SettingExpection[i] += DenyValue / (6 - DenyCount);
+							SettingExpection[i] += DenyValue / (SettingLevel - DenyCount);
 						}
 					}
 				}
 			}
 
-			for (int i = 0; i < 6; i++)
+			for (int i = 0; i < SettingLevel; i++)
 			{
 				if(SettingExpection[i] == 0.0f) { continue; }
 				SettingExpection[i] /= ElementDic.Count;
